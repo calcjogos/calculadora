@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seu Título Aqui</title>
+    <!-- Link para o CSS do Bootstrap via CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <style>
+      .fixed-size {
+        width: 220px;
+      }
+
+      .container-center {
+        width: 200px;
+        margin: 0 auto;
+      }
+
+      .container-tabela-center {
+        margin: 20px auto 0;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div class="container" id="calculadora">
+      <!-- Seu conteúdo aqui -->
+      <h1>Calculadora do Cyborg</h1>
+      <p>Preencha todos os campos abaixo</p>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text fixed-size" id="valorEntradaInicial"
+          >Valor Entrada Inicial:</span
+        >
+        <input
+          type="number"
+          id="valEntradaInicial"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="valorEntradaInicial"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text fixed-size" id="valorSaidaInicial"
+          >Valor Saída Inicial:</span
+        >
+        <input
+          type="number"
+          id="valSaidaInicial"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="valorSaidaInicial"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text fixed-size" id="valorEntradaSemana"
+          >Valor Entrada Semanal:</span
+        >
+        <input
+          type="number"
+          id="valEntradaSemana"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="valorSaidaInicial"
+        />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text fixed-size" id="valorSaidaSemana"
+          >Valor Saída Semanal:</span
+        >
+        <input
+          type="number"
+          id="valSaidaSemana"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="valorSaidaSemana"
+        />
+      </div>
+
+      <div class="container-center">
+        <button id="calcular" class="btn btn-primary">Calcular</button>
+        <button id="reiniciar" class="btn btn-secondary">Reiniciar</button>
+      </div>
+
+      <div class="container-tabela-center">
+        <table class="table table-striped" id="tabela">
+          <tr>
+            <td class="resultTitulo">Valor de Entrada Liquida 7 dias:</td>
+            <td id="resultEntradaLiquida">R$ 0.00</td>
+          </tr>
+          <tr>
+            <td class="resultTitulo">Valor de Saída Liquida 7 dias:</td>
+            <td id="resultSaidaLiquida">R$ 0.00</td>
+          </tr>
+          <tr>
+            <td class="resultTitulo">Resultado Final em 7 dias:</td>
+            <td id="resultTotal">R$ 0.00</td>
+          </tr>
+
+          <tr>
+            <td class="resultTitulo">Valor do Ponto:</td>
+            <td id="resultValorPonto">R$ 0.00</td>
+          </tr>
+
+          <tr>
+            <td class="resultTitulo">Meu Valor:</td>
+            <td id="resultMeuValor">R$ 0.00</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Scripts do Bootstrap via CDN -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-bJbSl5xC/K7b4itdAW3ZnVJ6P5lE2u5/ZzI7uLP5h+6l5/xhT6Cv9Zh5pd4D9eZ1r"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      document
+        .getElementById("calcular")
+        .addEventListener("click", function () {
+          // Obter os valores dos números a partir dos campos de entrada
+          var valEntradaInicial = parseFloat(
+            document.getElementById("valEntradaInicial").value
+          );
+          var valSaidaInicial = parseFloat(
+            document.getElementById("valSaidaInicial").value
+          );
+          var valEntradaSemana = parseFloat(
+            document.getElementById("valEntradaSemana").value
+          );
+          var valSaidaSemana = parseFloat(
+            document.getElementById("valSaidaSemana").value
+          );
+
+          if (
+            !valEntradaInicial ||
+            !valSaidaInicial ||
+            !valEntradaSemana ||
+            !valSaidaSemana
+          ) {
+            alert("todos os valores deveram ser preenchidos");
+            return;
+          }
+
+          const entradaLiquida = Math.abs(valEntradaSemana - valEntradaInicial);
+          const saidaLiquida = Math.abs(valSaidaSemana - valSaidaInicial);
+          const total = entradaLiquida - saidaLiquida;
+          let valorPonto = 0;
+          let meuValor = 0;
+          if (total > 0) {
+            valorPonto = total * 0.2;
+            const totalRestante = total - valorPonto;
+
+            meuValor = totalRestante - 0.25;
+          }
+
+          document.getElementById("resultEntradaLiquida").textContent =
+            "R$ " + entradaLiquida;
+          document.getElementById("resultSaidaLiquida").textContent =
+            "R$ " + saidaLiquida;
+          document.getElementById("resultTotal").textContent = "R$ " + total;
+          document.getElementById("resultValorPonto").textContent =
+            "R$ " + valorPonto.toFixed(2);
+          document.getElementById("resultMeuValor").textContent =
+            "R$ " + meuValor.toFixed(2);
+        });
+
+      document
+        .getElementById("reiniciar")
+        .addEventListener("click", function () {
+          // Obtém a referência à div
+          var div = document.getElementById("calculadora");
+
+          // Obtém todos os elementos input dentro da div
+          var inputs = div.getElementsByTagName("input");
+
+          // Itera sobre os inputs e define o valor como vazio ("")
+          for (var i = 0; i < inputs.length; i++) {
+            inputs[i].value = "";
+          }
+          
+
+          document.getElementById("resultEntradaLiquida").textContent = "R$ 0.00";
+          document.getElementById("resultSaidaLiquida").textContent = "R$ 0.00";
+          document.getElementById("resultTotal").textContent = "R$ 0.00";
+          document.getElementById("resultValorPonto").textContent = "R$ 0.00";
+          document.getElementById("resultMeuValor").textContent = "R$ 0.00";
+        });
+    </script>
+  </body>
+</html>
